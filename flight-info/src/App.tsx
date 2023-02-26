@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react"
-import { Input } from "./components/Input"
-import JSONDATA from "./data/flights.json"
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+
+import { Input } from "./components/Input";
+import JSONDATA from "./data/flights.json";
+import { GlobalStyles } from "./helpers/GlobalStyles";
 
 /**
  * TODO'S
@@ -19,21 +22,31 @@ import JSONDATA from "./data/flights.json"
  */
 
 interface FlightInfoProps {
-    flightIdentifier: string
-    flightNumber: string
-    airport: string
-    expectedTime: string
-    originalTime: string
-    url: string
-    score: string
+    flightIdentifier: string;
+    flightNumber: string;
+    airport: string;
+    expectedTime: string;
+    originalTime: string;
+    url: string;
+    score: string;
 }
 
-function App() {
-    const [searchQuery, setSearchQuery] = useState("")
-    const [flightsData, setFlightsData] = useState<FlightInfoProps[]>([])
-    const [queriedFlights, setQueriedFlights] = useState<FlightInfoProps[]>([])
+const MAX_RESULT = 5;
 
-    const searchQueryCondition = searchQuery.length >= 3
+const AppContainer = styled.section`
+    padding: 20px;
+`;
+
+const SearchInput = styled(Input)`
+    font-size: 21px;
+`;
+
+function App() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [flightsData, setFlightsData] = useState<FlightInfoProps[]>([]);
+    const [queriedFlights, setQueriedFlights] = useState<FlightInfoProps[]>([]);
+
+    const searchQueryCondition = searchQuery.length >= 3;
 
     useEffect(() => {
         // const fetchData = async () => {
@@ -43,52 +56,56 @@ function App() {
         //   console.log({ flights })
         // }
         // fetchData();
-        setFlightsData(JSONDATA.flights)
-    }, [])
+        setFlightsData(JSONDATA.flights);
+    }, []);
 
     useEffect(() => {
         const filteredFlights = flightsData.filter((flightData) => {
-            const airportName = flightData.airport.toLowerCase()
-            const searchInput = searchQuery.toLowerCase()
+            const airportName = flightData.airport.toLowerCase();
+            const searchInput = searchQuery.toLowerCase();
             return (
                 searchQueryCondition &&
                 airportName.includes(searchInput) &&
                 flightData
-            )
-        })
+            );
+        });
 
-        setQueriedFlights(filteredFlights)
+        setQueriedFlights(filteredFlights);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchQuery])
-
-    console.log({ queriedFlights })
+    }, [searchQuery]);
 
     return (
-        <div className="App">
+        <AppContainer className="App">
+            <GlobalStyles />
             <section>
-                <input
+                <SearchInput
+                    label="Search an Airport"
+                    name="search_input"
                     type="search"
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="type here the name of the airport..."
                 />
 
                 {searchQueryCondition && (
                     <section>
                         {queriedFlights.length > 0 ? (
                             <ul>
-                                {queriedFlights.map(
-                                    ({
-                                        airport,
-                                        flightNumber,
-                                        flightIdentifier,
-                                    }) => (
-                                        <li key={flightIdentifier}>
-                                            <article>
-                                                <span>{airport}</span> |{" "}
-                                                <span>{flightNumber}</span>
-                                            </article>
-                                        </li>
-                                    )
-                                )}
+                                {queriedFlights
+                                    .slice(0, MAX_RESULT)
+                                    .map(
+                                        ({
+                                            airport,
+                                            flightNumber,
+                                            flightIdentifier,
+                                        }) => (
+                                            <li key={flightIdentifier}>
+                                                <article>
+                                                    <span>{airport}</span> |{" "}
+                                                    <span>{flightNumber}</span>
+                                                </article>
+                                            </li>
+                                        )
+                                    )}
                             </ul>
                         ) : (
                             <p>No flights found</p>
@@ -96,8 +113,8 @@ function App() {
                     </section>
                 )}
             </section>
-        </div>
-    )
+        </AppContainer>
+    );
 }
 
-export default App
+export default App;

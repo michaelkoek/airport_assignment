@@ -1,17 +1,52 @@
-import React from 'react';
+import React from "react";
+import styled from "styled-components";
 
 interface InputProps {
     name: string;
-    type?: 'text' | 'number' | 'search' | 'password';
+    type?: "text" | "number" | "search" | "password";
     disabled?: boolean;
-    onChange(): void;
+    label?: string;
+    placeholder?: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
 
-export const Input = ({ name, type = "text", disabled = false, onChange }: InputProps) => {
+const InputContainer = styled.section`
+    padding: 10px 5px;
+    width: 100%;
+`;
 
+const InputElement = styled.input`
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    border: 2px solid var(--grey-storm);
+`;
+
+const Label = styled.label`
+    margin-bottom: 5px;
+    display: block;
+    font-weight: 700;
+`;
+
+export const Input = ({
+    name,
+    type = "text",
+    disabled = false,
+    onChange,
+    label,
+    placeholder,
+}: InputProps) => {
     return (
-        <section>
-            <input type={type} name={name} disabled={disabled} onChange={onChange} />
-        </section>
+        <InputContainer>
+            <Label htmlFor={name}>{label}</Label>
+            <InputElement
+                type={type}
+                id={name}
+                name={name}
+                disabled={disabled}
+                onChange={onChange}
+                placeholder={placeholder}
+            />
+        </InputContainer>
     );
 };
