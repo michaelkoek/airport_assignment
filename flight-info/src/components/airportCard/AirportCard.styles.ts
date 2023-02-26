@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ANIMATE_DURATION = 35;
+const ANIMATE_DURATION = 70;
 const ANIMATE_TIMING = "ease-in";
 
 export const Container = styled.article`
@@ -10,13 +10,12 @@ export const Container = styled.article`
     border: 1px solid var(--grey-storm);
     background-image: var(--gradient-flights);
     transition: transform ${ANIMATE_DURATION}ms ${ANIMATE_TIMING},
-        scale ${ANIMATE_DURATION * 0.2}ms ${ANIMATE_TIMING};
+        scale ${ANIMATE_DURATION * 2}ms ${ANIMATE_TIMING};
 
     &:hover {
         transform: translate(0, -5px);
         scale: 101%;
     }
-    height: 180px;
 `;
 
 export const Header = styled.h1`

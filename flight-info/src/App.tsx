@@ -4,7 +4,6 @@ import { AirportCard } from "./components/airportCard/AirportCard";
 
 import { Input } from "./components/input/Input";
 import JSONDATA from "./data/flights.json";
-import { GlobalStyles } from "./helpers/GlobalStyles";
 
 /**
  * TODO'S
@@ -14,11 +13,11 @@ import { GlobalStyles } from "./helpers/GlobalStyles";
  * [x] No flight information initially
  * [] Fetch from JSON using Fetch API
  * [x] Show *destination airports* containing input filter
- * [] Show max 5 flights
+ * [x] Show max 5 flights
  *    [x] if input has length and map is empty, show 'no flights' message
  * [] Results should be sortable on date
  *    [] Results should be sortable
- * [] Design UI using provided colors
+ * [x] Design UI using provided colors
  * [] Write test
  */
 
@@ -89,9 +88,9 @@ function App() {
 
     return (
         <AppContainer className="App">
-            <GlobalStyles />
             <section>
                 <SearchInput
+                    data-testid="search_input"
                     label="Search an Airport"
                     name="search_input"
                     type="search"

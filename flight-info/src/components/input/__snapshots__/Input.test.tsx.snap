@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Input renders correctly as text input 1`] = `
+<div>
+  <section
+    class="sc-bcXHqe VcqUi"
+  >
+    <label
+      class="sc-dkrFOg cIWZJf"
+      data-testid="labelname"
+      for="test"
+    />
+    <input
+      class="sc-gswNZR ipnriv"
+      data-testid="input"
+      id="test"
+      name="test"
+      placeholder="test"
+      type="text"
+    />
+  </section>
+</div>
+`;

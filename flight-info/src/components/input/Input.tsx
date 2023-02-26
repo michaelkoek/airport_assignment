@@ -20,8 +20,11 @@ export const Input = ({
 }: InputProps) => {
     return (
         <InputContainer>
-            <Label htmlFor={name}>{label}</Label>
+            <Label htmlFor={name} data-testid="labelname">
+                {label}
+            </Label>
             <InputElement
+                data-testid="input"
                 type={type}
                 id={name}
                 name={name}
