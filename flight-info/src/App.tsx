@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { AirportCard } from "./components/airportCard/AirportCard";
 
-import { Input } from "./components/Input";
+import { Input } from "./components/input/Input";
 import JSONDATA from "./data/flights.json";
 import { GlobalStyles } from "./helpers/GlobalStyles";
 
@@ -39,6 +40,18 @@ const AppContainer = styled.section`
 
 const SearchInput = styled(Input)`
     font-size: 21px;
+`;
+
+const ListContainer = styled.ul`
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+`;
+const ListItem = styled.li`
+    width: calc((100% / 3) - 20px);
+    padding: 10px;
 `;
 
 function App() {
@@ -89,7 +102,7 @@ function App() {
                 {searchQueryCondition && (
                     <section>
                         {queriedFlights.length > 0 ? (
-                            <ul>
+                            <ListContainer>
                                 {queriedFlights
                                     .slice(0, MAX_RESULT)
                                     .map(
@@ -97,16 +110,21 @@ function App() {
                                             airport,
                                             flightNumber,
                                             flightIdentifier,
+                                            expectedTime,
+                                            originalTime,
                                         }) => (
-                                            <li key={flightIdentifier}>
-                                                <article>
-                                                    <span>{airport}</span> |{" "}
-                                                    <span>{flightNumber}</span>
-                                                </article>
-                                            </li>
+                                            <ListItem key={flightIdentifier}>
+                                                <AirportCard
+                                                    flightId={flightIdentifier}
+                                                    flightNumber={flightNumber}
+                                                    expectedTime={expectedTime}
+                                                    originalTime={originalTime}
+                                                    airport={airport}
+                                                />
+                                            </ListItem>
                                         )
                                     )}
-                            </ul>
+                            </ListContainer>
                         ) : (
                             <p>No flights found</p>
                         )}

@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { InputContainer, InputElement, Label } from "./Input.styles";
 
 interface InputProps {
     name: string;
@@ -9,24 +9,6 @@ interface InputProps {
     placeholder?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
 }
-
-const InputContainer = styled.section`
-    padding: 10px 5px;
-    width: 100%;
-`;
-
-const InputElement = styled.input`
-    width: 100%;
-    border-radius: 5px;
-    padding: 10px;
-    border: 2px solid var(--grey-storm);
-`;
-
-const Label = styled.label`
-    margin-bottom: 5px;
-    display: block;
-    font-weight: 700;
-`;
 
 export const Input = ({
     name,
