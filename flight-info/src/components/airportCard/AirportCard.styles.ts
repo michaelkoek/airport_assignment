@@ -2,12 +2,14 @@ import styled from "styled-components";
 
 const ANIMATE_DURATION = 70;
 const ANIMATE_TIMING = "ease-in";
+const BORDER_RADIUS = "5px";
 
 export const Container = styled.article`
     position: relative;
     padding: 10px 10px 50px;
     box-shadow: 0px 5px 7px 1px var(--grey-storm);
     border: 1px solid var(--grey-storm);
+    border-radius: ${BORDER_RADIUS};
     background-image: var(--gradient-flights);
     transition: transform ${ANIMATE_DURATION}ms ${ANIMATE_TIMING},
         scale ${ANIMATE_DURATION * 2}ms ${ANIMATE_TIMING};
@@ -30,6 +32,8 @@ export const BottomContainer = styled.section`
     bottom: 0;
     left: 0;
     right: 0;
+    border-bottom-left-radius: ${BORDER_RADIUS};
+    border-bottom-right-radius: ${BORDER_RADIUS};
 `;
 
 export const AirportName = styled.p`
