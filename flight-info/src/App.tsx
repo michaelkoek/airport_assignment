@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { AirportCard } from "./components/airportCard/AirportCard";
 
 import { Input } from "./components/input/Input";
-import JSONDATA from "./data/flights.json";
+// import JSONDATA from "./data/flights.json";
 
 /**
  * TODO'S
@@ -11,14 +11,14 @@ import JSONDATA from "./data/flights.json";
  * [x] Input reacts to 3 char or more
  * [x] convert to lowercase()
  * [x] No flight information initially
- * [] Fetch from JSON using Fetch API
+ * [x] Fetch from JSON using Fetch API
  * [x] Show *destination airports* containing input filter
  * [x] Show max 5 flights
  *    [x] if input has length and map is empty, show 'no flights' message
- * [] Results should be sortable on date
- *    [] Results should be sortable
+ * [x] Results should be sortable on date
+ *    [x] Results should be sortable
  * [x] Design UI using provided colors
- * [] Write test
+ * [x] Write test
  */
 
 interface FlightInfoProps {
@@ -57,18 +57,17 @@ function App() {
     const [searchQuery, setSearchQuery] = useState("");
     const [flightsData, setFlightsData] = useState<FlightInfoProps[]>([]);
     const [queriedFlights, setQueriedFlights] = useState<FlightInfoProps[]>([]);
+    const [isReversedOrder, setIsReversedOrder] = useState(false);
 
     const searchQueryCondition = searchQuery.length >= 3;
 
     useEffect(() => {
-        // const fetchData = async () => {
-        //   const response = await fetch('./data/flights.json')
-        //   console.log({ response })
-        //   const { flights } =  await response.json();
-        //   console.log({ flights })
-        // }
-        // fetchData();
-        setFlightsData(JSONDATA.flights);
+        const fetchData = async () => {
+            const response = await fetch("flights.json");
+            const { flights } = await response.json();
+            setFlightsData(flights);
+        };
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -77,14 +76,24 @@ function App() {
             const searchInput = searchQuery.toLowerCase();
             return (
                 searchQueryCondition &&
-                airportName.includes(searchInput) &&
-                flightData
+                airportName.includes(searchInput) && {
+                    ...flightData,
+                    sortValue: +flightData.originalTime.replace(":", ""),
+                }
             );
         });
 
         setQueriedFlights(filteredFlights);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchQuery]);
+
+    const sortedFlights = (
+        flights: FlightInfoProps[],
+        reverseOrder?: boolean
+    ) => {
+        const flightLimit = flights.slice(0, MAX_RESULT);
+        return reverseOrder ? flightLimit.reverse() : flightLimit.sort();
+    };
 
     return (
         <AppContainer className="App">
@@ -97,32 +106,44 @@ function App() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="type here the name of the airport..."
                 />
+                {queriedFlights.length > 0 && (
+                    <section>
+                        <button
+                            onClick={() =>
+                                setIsReversedOrder((prevState) => !prevState)
+                            }
+                        >
+                            Reverse flight order
+                        </button>
+                    </section>
+                )}
 
                 {searchQueryCondition && (
                     <section>
                         {queriedFlights.length > 0 ? (
                             <ListContainer>
-                                {queriedFlights
-                                    .slice(0, MAX_RESULT)
-                                    .map(
-                                        ({
-                                            airport,
-                                            flightNumber,
-                                            flightIdentifier,
-                                            expectedTime,
-                                            originalTime,
-                                        }) => (
-                                            <ListItem key={flightIdentifier}>
-                                                <AirportCard
-                                                    flightId={flightIdentifier}
-                                                    flightNumber={flightNumber}
-                                                    expectedTime={expectedTime}
-                                                    originalTime={originalTime}
-                                                    airport={airport}
-                                                />
-                                            </ListItem>
-                                        )
-                                    )}
+                                {sortedFlights(
+                                    queriedFlights,
+                                    isReversedOrder
+                                ).map(
+                                    ({
+                                        airport,
+                                        flightNumber,
+                                        flightIdentifier,
+                                        expectedTime,
+                                        originalTime,
+                                    }) => (
+                                        <ListItem key={flightIdentifier}>
+                                            <AirportCard
+                                                flightId={flightIdentifier}
+                                                flightNumber={flightNumber}
+                                                expectedTime={expectedTime}
+                                                originalTime={originalTime}
+                                                airport={airport}
+                                            />
+                                        </ListItem>
+                                    )
+                                )}
                             </ListContainer>
                         ) : (
                             <p>No flights found</p>
