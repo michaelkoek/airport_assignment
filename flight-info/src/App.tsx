@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { AirportCard } from "./components/airportCard/AirportCard";
 
+import { AirportCard } from "./components/airportCard/AirportCard";
 import { Input } from "./components/input/Input";
-// import JSONDATA from "./data/flights.json";
 
 /**
  * TODO'S
@@ -47,10 +46,18 @@ const ListContainer = styled.ul`
     flex-wrap: wrap;
     margin: 0;
     padding: 0;
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
 `;
 const ListItem = styled.li`
     width: calc((100% / 3) - 20px);
     padding: 10px;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 `;
 
 function App() {

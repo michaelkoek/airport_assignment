@@ -7,5 +7,3 @@ it("should render an input", () => {
     const searchInputElement = screen.getAllByLabelText("Search an Airport");
     expect(searchInputElement).toBeTruthy();
 });
-
-// it("should show cards on screen");

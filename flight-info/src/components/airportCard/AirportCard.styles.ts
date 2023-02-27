@@ -20,6 +20,10 @@ export const Container = styled.article`
     }
 `;
 
+export const InnerContainer = styled.section`
+    padding: 5px;
+`;
+
 export const Header = styled.h1`
     margin: 5px;
     font-size: 24px;

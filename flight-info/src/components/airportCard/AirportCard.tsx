@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 
 import {
     AirportName,
@@ -7,6 +6,7 @@ import {
     Container,
     Header,
     Timers,
+    InnerContainer,
 } from "./AirportCard.styles";
 
 interface AirportCardProps {
@@ -16,10 +16,6 @@ interface AirportCardProps {
     originalTime: string;
     airport: string;
 }
-
-const InnerContainer = styled.section`
-    padding: 5px;
-`;
 
 export const AirportCard = ({
     airport,
